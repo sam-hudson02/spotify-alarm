@@ -15,10 +15,7 @@ import (
 )
 
 func readConfig() {
-	err := godotenv.Load()
-	if err != nil {
-		panic(err)
-	}
+	godotenv.Load()
 }
 
 func getAuth() *spotifyauth.Authenticator {
