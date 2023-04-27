@@ -77,8 +77,13 @@ func trigger(g *gin.Context) {
 		g.String(500, "Error parsing transition time: %v", err)
 		return
 	}
+	go g.String(200, "Playing alarm!")
 
 	fmt.Println("Playing alarm!")
+	go playAlarm(playlistID, deviceID, transitionTime)
+}
+
+func playAlarm(playlistID string, deviceID string, transitionTime float64) {
 	s := <-ch
 	fmt.Println("Got spotify client!")
 	go s.PlayAlarm(playlistID, deviceID, transitionTime)

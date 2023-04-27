@@ -54,11 +54,16 @@ func (s *Spotify) PlayAlarm(playlistID string, deviceID string, transitionTime f
 	err1 := s.client.VolumeOpt(s.ctx, 0, &spotify.PlayOptions{ DeviceID : &device })
 	if err1 != nil {
 		fmt.Println("Error setting volume to 0: ", err1)
+		err2 := s.client.PlayOpt(s.ctx, &spotify.PlayOptions{ PlaybackContext : &playlist, DeviceID : &device })
+		if err2 != nil {
+			fmt.Println("Error playing playlist: ", err2)
+			return err2
+		}
 		return err1
 	}
 	
 	fmt.Println("Playing playlist: ", playlist)
-	err2 := s.client.PlayOpt(s.ctx, &spotify.PlayOptions{ PlaybackContext : &playlist })
+	err2 := s.client.PlayOpt(s.ctx, &spotify.PlayOptions{ PlaybackContext : &playlist, DeviceID : &device })
 	if err2 != nil {
 		fmt.Println("Error playing playlist: ", err2)
 		return err2
